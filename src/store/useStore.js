@@ -1,10 +1,17 @@
 import create from 'zustand';
 
-const useStore=create((set)=>{
+const useLogInStore=create((set)=>({
    
         token: '',
         isLoggedIn: false,
-        login: (token) => set(state => ({ bears: state.bears + 1 })),
-        logout: logoutHandler,
+        login: (token) => set(state => {
+                localStorage.setItem('token',token);
+               return { token:token, isLoggedIn:true};
+        }),
+        logout: ()=>set(state => {
+                localStorage.removeItem('token');
+               return { token:null, isLoggedIn:false};
+        })
   
-})
+}));
+export default useLogInStore;

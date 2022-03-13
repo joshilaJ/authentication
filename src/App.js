@@ -4,22 +4,26 @@ import Layout from './components/Layout/Layout';
 import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
-import {useContext} from 'react';
-import AuthContext from './store/auth-context';
-
+// import {useContext} from 'react';
+// import AuthContext from './store/auth-context';
+import useLogInStore from "./store/useStore";
 function App() {
-  const authCtx=useContext(AuthContext);
+  // const authCtx=useContext(AuthContext);
+  const isloggedInStore = useLogInStore((state) => state.isLoggedIn);
   return (
     <Layout>
       <Switch>
         <Route path='/' exact>
           <HomePage />
         </Route>
-       {!authCtx.isLoggedIn && <Route path='/auth'>
+       {/* {!authCtx.isLoggedIn &&  */}
+       {!isloggedInStore && 
+       <Route path='/auth'>
           <AuthPage />
         </Route>
         }
-        {authCtx.isLoggedIn &&
+        {/* {authCtx.isLoggedIn && */}
+        {isloggedInStore &&
         <Route path='/profile'>
           <UserProfile />
         </Route>

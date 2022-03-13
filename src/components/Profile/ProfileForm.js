@@ -1,14 +1,19 @@
 import { useRef, useContext } from 'react';
 
-import AuthContext from '../../store/auth-context';
+// import AuthContext from '../../store/auth-context';
 import classes from './ProfileForm.module.css';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
+import useLogInStore from '../../store/useStore';
 
 const ProfileForm = () => {
 
+  const logIntoken=useLogInStore(state=>state.token);
+  const logInStore=useLogInStore(state=>state.login);
+  const logOutStore=useLogInStore(state=>state.logout);
+
   const history=useHistory();
   const newPasswordInputRef = useRef();
-  const authCtx = useContext(AuthContext);
+  // const authCtx = useContext(AuthContext);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -20,7 +25,9 @@ const ProfileForm = () => {
     fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDWvD1kymdPolUevYtHiLcUYye3oWC9HHU', {
       method: 'POST',
       body: JSON.stringify({
-        idToken: authCtx.token,
+        // idToken: authCtx.token,
+        idToken:logIntoken,
+
         password: enteredNewPassword,
         returnSecureToken: false
       }),

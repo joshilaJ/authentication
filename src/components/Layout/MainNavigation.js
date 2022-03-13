@@ -1,36 +1,43 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+// import { useContext } from 'react';
+import { Link } from "react-router-dom";
 
-import AuthContext from '../../store/auth-context';
-import classes from './MainNavigation.module.css';
+// import AuthContext from '../../store/auth-context';
+import classes from "./MainNavigation.module.css";
+import useLogInStore from "../../store/useStore";
 
 const MainNavigation = () => {
-  const authCtx = useContext(AuthContext);
+  const logOutStore = useLogInStore((state) => state.logout);
+  const isloggedInStore = useLogInStore((state) => state.isLoggedIn);
+  // const authCtx = useContext(AuthContext);
 
-  const isLoggedIn = authCtx.isLoggedIn;
+  // const isLoggedIn = authCtx.isLoggedIn;
 
-  const logOutHandler=()=>{
-    authCtx.logout();
-  }
+  const logOutHandler = () => {
+    // authCtx.logout();
+    logOutStore();
+  };
 
   return (
     <header className={classes.header}>
-      <Link to='/'>
+      <Link to="/">
         <div className={classes.logo}>React Auth</div>
       </Link>
       <nav>
         <ul>
-          {!isLoggedIn && (
+          {/* {!isLoggedIn && ( */}
+          {!isloggedInStore && (
             <li>
-              <Link to='/auth'>Login</Link>
+              <Link to="/auth">Login</Link>
             </li>
           )}
-          {isLoggedIn && (
+          {/* {isLoggedIn && ( */}
+          {isloggedInStore && (
             <li>
-              <Link to='/profile'>Profile</Link>
+              <Link to="/profile">Profile</Link>
             </li>
           )}
-          {isLoggedIn && (
+          {/* {isLoggedIn && ( */}
+          {isloggedInStore && (
             <li>
               <button onClick={logOutHandler}>Logout</button>
             </li>
